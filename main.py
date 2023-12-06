@@ -1,3 +1,5 @@
+import os.path
+import subprocess
 import tkinter as tk
 import cv2
 from PIL import Image, ImageTk
@@ -17,6 +19,10 @@ class App:
 
 
         self.add_webcam(self.webcam_label)
+
+        self.db_dir = './Images'
+        if not os.path.exists(self.db_dir):
+            os.mkdir(self.db_dir)
 
     def add_webcam(self, label):
         if 'cap'  not in self.__dict__:
@@ -43,7 +49,12 @@ class App:
         self._label.after(20, self.process_webcam)
 
     def login(self):
-        pass
+        unknown_imag_path = './.tmp.jpg'
+        cv2.imwrite()
+        output = subprocess.check_output(['face_recognition', self.db_dir, unknown_imag_path])
+        os.remove(unknown_imag_path)
+
+
     def register_new_user(self):
         self.register_new_user_window = tk.Toplevel(self.main_window)
         self.register_new_user_window.geometry("1200x520+370+120")
@@ -60,16 +71,34 @@ class App:
         self.add_img_to_label(self.capture_label)
 
 
+
+        self.entry_text_register_new_user = util.get_entry_text(self.register_new_user_window)
+        self.entry_text_register_new_user.place(x=750, y=150)
+
+        self.text_label_register_new_user = util.get_text_label(self.register_new_user_window, 'Please input username:')
+        self.text_label_register_new_user.place(x=750, y=70)
+    def try_again_register_new_user(self):
+        self.register_new_user_window.destroy()
+
+
     def add_img_to_label(self, label):
-        pass
+        imgtk = ImageTk.PhotoImage(image=self.most_recent_capture_pill)
+        label.imgtk = imgtk
+        label.configure(image=imgtk)
+
+        self.register_new_user_capture = self.most_recent_capture_arr.copy()
 
     def start(self):
         self.main_window.mainloop()
 
     def accept_register_new_user(self):
-        pass
-    # def try_again_register_new_user(self):
-    #     pass
+        name = self.entry_text_register_new_user.get(1.0, "end-1c")
+
+        cv2.imwrite(os.path.join(self.db_dir, '{}.jpg'.format(name)), self.register_new_user_capture)
+        util.msg_box('Success !','User was registered successfully !')
+
+        self.register_new_user_window.destroy()
+
 
 
 if __name__ == "__main__":
