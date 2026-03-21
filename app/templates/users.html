@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel panel-feature">
+    <div>
+        <p class="eyebrow">Users</p>
+        <h2>People enrolled in the system</h2>
+        <p class="lead">Review active users, open their details, or disable a user when access should stop.</p>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="table-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Embeddings</th>
+                    <th>Created</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td><a class="text-link" href="/users/{{ user.id }}">{{ user.full_name }}</a></td>
+                    <td>{{ "Active" if user.is_active else "Disabled" }}</td>
+                    <td>{{ user.embeddings|length }}</td>
+                    <td>{{ user.created_at.strftime("%Y-%m-%d") }}</td>
+                    <td>
+                        {% if user.is_active %}
+                        <form method="post" action="/api/users/{{ user.id }}/disable" data-inline-post>
+                            <button type="submit" class="button button-danger">Disable</button>
+                        </form>
+                        {% else %}
+                        <span class="helper">Already disabled</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No users yet. Enroll someone first.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
+

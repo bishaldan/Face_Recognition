@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel panel-feature">
+    <div>
+        <p class="eyebrow">User detail</p>
+        <h2>{{ user.full_name }}</h2>
+        <p class="lead">{{ user.email or "No email provided" }}</p>
+    </div>
+</section>
+
+<section class="page-grid">
+    <div class="panel">
+        <h3>Profile</h3>
+        <dl class="detail-grid">
+            <div><dt>Status</dt><dd>{{ "Active" if user.is_active else "Disabled" }}</dd></div>
+            <div><dt>Embeddings</dt><dd>{{ user.embeddings|length }}</dd></div>
+            <div><dt>Notes</dt><dd>{{ user.notes or "No notes" }}</dd></div>
+            <div><dt>Created</dt><dd>{{ user.created_at.strftime("%Y-%m-%d %H:%M") }}</dd></div>
+        </dl>
+    </div>
+    <div class="panel">
+        <h3>Enrollment images</h3>
+        <div class="image-grid">
+            {% for image in images %}
+            <figure class="thumb">
+                <img src="/media/{{ image.object_key }}" alt="Enrollment image {{ image.capture_index }}">
+                <figcaption>Capture {{ image.capture_index }} • Score {{ image.quality_score }}</figcaption>
+            </figure>
+            {% else %}
+            <p>No enrollment images available.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+

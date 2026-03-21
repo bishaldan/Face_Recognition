@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel panel-feature">
+    <div>
+        <p class="eyebrow">Verification</p>
+        <h2>Check identity with one clear photo</h2>
+        <p class="lead">Use this page when a person is ready to verify. One face should be visible and centered.</p>
+    </div>
+</section>
+
+<section class="page-grid">
+    <div class="panel">
+        <div class="camera-card" data-camera-root data-preview-id="verify-preview">
+            <video id="verify-preview" autoplay playsinline muted></video>
+            <canvas hidden></canvas>
+            <label>
+                Verify against a specific person (optional)
+                <select id="candidate-user-id">
+                    <option value="">All active users</option>
+                    {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.full_name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <div class="camera-actions">
+                <button type="button" class="button button-secondary" data-start-camera>Start Camera</button>
+                <button type="button" class="button" data-run-verification disabled>Verify Now</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">Result</p>
+                <h3>Latest verification outcome</h3>
+            </div>
+        </div>
+        <div id="verification-result" class="status-box status-box-large" aria-live="polite">
+            Start the camera, then press <strong>Verify Now</strong>.
+        </div>
+    </div>
+</section>
+{% endblock %}
+

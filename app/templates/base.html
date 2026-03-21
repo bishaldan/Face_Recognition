@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ settings.app_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}">
+</head>
+<body>
+    <div class="shell">
+        {% if operator %}
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-mark">FR</div>
+                <div>
+                    <p class="eyebrow">Face Verification</p>
+                    <h1>{{ settings.app_name }}</h1>
+                </div>
+            </div>
+            <nav class="nav-list">
+                <a href="/">Home</a>
+                <a href="/enroll">Enroll User</a>
+                <a href="/verify">Verify User</a>
+                <a href="/users">Users</a>
+                <a href="/logs">Logs</a>
+                <a href="/settings">Settings</a>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Signed in as <strong>{{ operator.display_name }}</strong></p>
+                <form method="post" action="/logout">
+                    <button type="submit" class="button button-muted">Sign Out</button>
+                </form>
+            </div>
+        </aside>
+        {% endif %}
+        <main class="content{% if not operator %} content-full{% endif %}">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    <script src="{{ url_for('static', path='js/app.js') }}"></script>
+</body>
+</html>
+

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero hero-login">
+    <div class="panel panel-compact">
+        <p class="eyebrow">Operator Sign In</p>
+        <h2>Welcome back</h2>
+        <p class="lead">Use your operator account to enroll people, run verification, and review logs.</p>
+        {% if error %}
+        <div class="alert">{{ error }}</div>
+        {% endif %}
+        <form method="post" action="/login" class="stack-form">
+            <label>
+                Username
+                <input type="text" name="username" autocomplete="username" required>
+            </label>
+            <label>
+                Password
+                <input type="password" name="password" autocomplete="current-password" required>
+            </label>
+            <button type="submit" class="button">Sign In</button>
+        </form>
+        <p class="helper">Default development login: <code>admin / Admin123!</code>. Change it in your environment before sharing.</p>
+    </div>
+</section>
+{% endblock %}
+

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel panel-feature">
+    <div>
+        <p class="eyebrow">Enrollment</p>
+        <h2>Register a person with calm, clear steps</h2>
+        <p class="lead">Ask the person to look at the camera, remove hats if possible, and stay still for each capture.</p>
+    </div>
+</section>
+
+<section class="page-grid">
+    <div class="panel">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">Step 1</p>
+                <h3>Person details</h3>
+            </div>
+        </div>
+        <form id="enrollment-form" class="stack-form" data-min-captures="{{ min_enrollment_captures }}">
+            <label>
+                Full name
+                <input type="text" name="full_name" required>
+            </label>
+            <label>
+                Email address
+                <input type="email" name="email">
+            </label>
+            <label>
+                Notes
+                <textarea name="notes" rows="4" placeholder="Optional notes for the operator"></textarea>
+            </label>
+            <label class="consent-row">
+                <input type="checkbox" name="consent_given" required>
+                <span>The person has agreed to enrollment and image review.</span>
+            </label>
+            <button type="submit" class="button">Start Enrollment</button>
+        </form>
+        <div id="enrollment-status" class="status-box" aria-live="polite"></div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">Step 2</p>
+                <h3>Capture clear photos</h3>
+            </div>
+        </div>
+        <div class="camera-card" data-camera-root data-preview-id="enrollment-preview">
+            <video id="enrollment-preview" autoplay playsinline muted></video>
+            <canvas hidden></canvas>
+            <div class="camera-actions">
+                <button type="button" class="button button-secondary" data-start-camera>Start Camera</button>
+                <button type="button" class="button" data-capture-enrollment disabled>Capture Photo</button>
+                <button type="button" class="button button-muted" data-finalize-enrollment disabled>Finish Enrollment</button>
+            </div>
+            <p class="helper">Take at least {{ min_enrollment_captures }} accepted photos. Keep one face in the frame and stay centered.</p>
+        </div>
+        <ol id="capture-results" class="result-list"></ol>
+    </div>
+</section>
+{% endblock %}
+

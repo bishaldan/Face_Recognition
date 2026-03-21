@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel panel-feature">
+    <div>
+        <p class="eyebrow">Settings</p>
+        <h2>Adjust the safety defaults carefully</h2>
+        <p class="lead">These settings apply to the whole system. Change them slowly and review logs after each adjustment.</p>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-header">
+        <div>
+            <p class="eyebrow">Runtime</p>
+            <h3>Current system profile</h3>
+        </div>
+    </div>
+    <div class="detail-grid detail-grid-compact">
+        <div><dt>Environment</dt><dd>{{ system_info.app_env }}</dd></div>
+        <div><dt>Recognition backend</dt><dd>{{ system_info.recognition_backend }}</dd></div>
+        <div><dt>Model</dt><dd>{{ system_info.model_name }}</dd></div>
+        <div><dt>Storage backend</dt><dd>{{ system_info.storage_backend }}</dd></div>
+        <div><dt>Database engine</dt><dd>{{ system_info.database_engine }}</dd></div>
+    </div>
+</section>
+
+<section class="panel">
+    <form method="post" action="/settings" class="stack-form narrow-form">
+        <label>
+            Similarity threshold
+            <input type="number" step="0.01" min="0" max="1" name="default_similarity_threshold" value="{{ system_settings.get('default_similarity_threshold', '0.86') }}">
+        </label>
+        <label>
+            Minimum accepted enrollment captures
+            <input type="number" min="1" max="10" name="min_enrollment_captures" value="{{ system_settings.get('min_enrollment_captures', '3') }}">
+        </label>
+        <button type="submit" class="button">Save Settings</button>
+    </form>
+</section>
+{% endblock %}

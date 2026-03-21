@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">Operator Dashboard</p>
+        <h2>Simple, steady face verification</h2>
+        <p class="lead">Use the large actions below to enroll a new person, verify someone quickly, or review the recent log.</p>
+    </div>
+    <div class="hero-actions">
+        <a class="button" href="/enroll">Enroll User</a>
+        <a class="button button-secondary" href="/verify">Verify User</a>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card">
+        <span>Total users</span>
+        <strong>{{ stats.user_count }}</strong>
+    </article>
+    <article class="stat-card">
+        <span>Active users</span>
+        <strong>{{ stats.active_user_count }}</strong>
+    </article>
+    <article class="stat-card">
+        <span>Verification attempts</span>
+        <strong>{{ stats.verification_count }}</strong>
+    </article>
+</section>
+
+<section class="panel">
+    <div class="panel-header">
+        <div>
+            <p class="eyebrow">System</p>
+            <h3>Current runtime profile</h3>
+        </div>
+        <a href="/settings" class="text-link">Open settings</a>
+    </div>
+    <div class="meta-grid">
+        <article class="meta-card">
+            <span>Recognition backend</span>
+            <strong>{{ system_info.recognition_backend }}</strong>
+            <p>{{ system_info.model_name }}</p>
+        </article>
+        <article class="meta-card">
+            <span>Storage backend</span>
+            <strong>{{ system_info.storage_backend }}</strong>
+            <p>Database: {{ system_info.database_engine }}</p>
+        </article>
+        <article class="meta-card">
+            <span>Threshold</span>
+            <strong>{{ system_info.default_similarity_threshold }}</strong>
+            <p>Min captures: {{ system_info.min_enrollment_captures }}</p>
+        </article>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-header">
+        <div>
+            <p class="eyebrow">Recent Activity</p>
+            <h3>Latest verification attempts</h3>
+        </div>
+        <a href="/logs" class="text-link">Open logs</a>
+    </div>
+    <div class="table-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Matched user</th>
+                    <th>Confidence</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for attempt in recent_attempts %}
+                <tr>
+                    <td>{{ attempt.created_at.strftime("%Y-%m-%d %H:%M") }}</td>
+                    <td><span class="pill pill-{{ attempt.status }}">{{ attempt.status }}</span></td>
+                    <td>{{ attempt.matched_user.full_name if attempt.matched_user else "No match" }}</td>
+                    <td>{{ attempt.confidence_band }}</td>
+                    <td>{{ attempt.reason_codes|join(", ") }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No activity yet. Start by enrolling a user.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

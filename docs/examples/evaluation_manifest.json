@@ -1,0 +1,13 @@
+[
+  {
+    "left_image": "/app/docs/examples/person_a_1.jpg",
+    "right_image": "/app/docs/examples/person_a_2.jpg",
+    "same_person": true
+  },
+  {
+    "left_image": "/app/docs/examples/person_a_1.jpg",
+    "right_image": "/app/docs/examples/person_b_1.jpg",
+    "same_person": false
+  }
+]
+
